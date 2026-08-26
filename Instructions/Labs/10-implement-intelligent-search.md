@@ -464,7 +464,7 @@ Vector search finds reviews based on the semantic meaning of text, not just keyw
 
     SELECT @searchVector = AI_GENERATE_EMBEDDINGS(@searchText USE MODEL my_embedding_model);
 
-    SELECT
+    SELECT TOP (5) WITH APPROXIMATE
         p.Name AS ProductName,
         r.ReviewTitle,
         r.ReviewText,
@@ -475,8 +475,7 @@ Vector search finds reviews based on the semantic meaning of text, not just keyw
         TABLE = dbo.ProductReview AS r,
         COLUMN = ReviewVector,
         SIMILAR_TO = @searchVector,
-        METRIC = 'cosine',
-        TOP_N = 5
+        METRIC = 'cosine'
     ) AS vs
     INNER JOIN SalesLT.Product p 
         ON r.ProductID = p.ProductID
@@ -610,7 +609,7 @@ To understand the strengths of each approach, run the same question through all 
 
     SELECT @searchVector = AI_GENERATE_EMBEDDINGS(@searchText USE MODEL my_embedding_model);
 
-    SELECT
+    SELECT TOP (5) WITH APPROXIMATE
         p.Name AS ProductName,
         r.ReviewTitle,
         r.ReviewText,
@@ -620,8 +619,7 @@ To understand the strengths of each approach, run the same question through all 
         TABLE = dbo.ProductReview AS r,
         COLUMN = ReviewVector,
         SIMILAR_TO = @searchVector,
-        METRIC = 'cosine',
-        TOP_N = 5
+        METRIC = 'cosine'
     ) AS vs
     INNER JOIN SalesLT.Product p 
         ON r.ProductID = p.ProductID
