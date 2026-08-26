@@ -543,6 +543,7 @@ RRF combines ranked results from different sources by using rank positions inste
                 SIMILAR_TO = @searchVector,
                 METRIC = 'cosine'
             ) AS vs
+            ORDER BY vs.distance
         ) AS similar_reviews
     ),
     combined AS (
@@ -659,6 +660,7 @@ To understand the strengths of each approach, run the same question through all 
                 SIMILAR_TO = @searchVector,
                 METRIC = 'cosine'
             ) AS vs
+            ORDER BY vs.distance
         ) AS similar_reviews
     ),
     combined AS (
