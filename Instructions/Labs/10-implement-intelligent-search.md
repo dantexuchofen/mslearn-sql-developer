@@ -534,15 +534,14 @@ RRF combines ranked results from different sources by using rank positions inste
             ReviewID,
             RANK() OVER (ORDER BY distance) AS vector_rank
         FROM (
-            SELECT 
+            SELECT TOP (50) WITH APPROXIMATE
                 r.ReviewID,
                 vs.distance
             FROM VECTOR_SEARCH(
                 TABLE = dbo.ProductReview AS r,
                 COLUMN = ReviewVector,
                 SIMILAR_TO = @searchVector,
-                METRIC = 'cosine',
-                TOP_N = 50
+                METRIC = 'cosine'
             ) AS vs
         ) AS similar_reviews
     ),
@@ -651,15 +650,14 @@ To understand the strengths of each approach, run the same question through all 
             ReviewID,
             RANK() OVER (ORDER BY distance) AS vector_rank
         FROM (
-            SELECT 
+            SELECT TOP (50) WITH APPROXIMATE
                 r.ReviewID,
                 vs.distance
             FROM VECTOR_SEARCH(
                 TABLE = dbo.ProductReview AS r,
                 COLUMN = ReviewVector,
                 SIMILAR_TO = @searchVector,
-                METRIC = 'cosine',
-                TOP_N = 50
+                METRIC = 'cosine'
             ) AS vs
         ) AS similar_reviews
     ),
